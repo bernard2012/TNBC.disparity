@@ -3,6 +3,8 @@
 ## Running Linear Mixed Model to get race-specific cell-cell interactions
 
 Prerequisite: R and lme4 package.
+Input:
+- `full.matrix.txt`. This file contains the list of cell-cell interactions per ROI, ROI metadata (race and patient ID), and the interaction enrichment/depletion z-score.
 
 ### Step 1:
 ```
