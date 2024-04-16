@@ -1,5 +1,13 @@
 # TNBC.disparity
 
+
+This tutorial has two sections
+
+1. [Running Linear Mixed Model to get race-specific cell-cell interactions](#section1)
+2. [Single Cell Clustering (Imaging Mass Cytometry)](#section2)
+
+
+<a name="section1"></a>
 ## Running Linear Mixed Model to get race-specific cell-cell interactions
 
 Prerequisite: R and lme4 package.
@@ -93,6 +101,10 @@ This will combine all the testing results from all interactions into a summary t
 Where the first column is the interaction, second column is the coefficient (AA), third column is the coefficient (EA), and the last column is the Padj value.
 For example, the interaction "7 CD152 CD8a--9 GranzymeB CD152 HIF1a.txt" is significant (Padj=0.049) and is higher in EA than AA.
 
+
+
+
+<a name="section2"></a>
 ## Single Cell Clustering (Imaging Mass Cytometry)
 
 Pre-requisite: R and Giotto.
