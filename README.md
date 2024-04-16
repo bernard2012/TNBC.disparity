@@ -4,7 +4,7 @@
 This tutorial has two sections
 
 1. [Running Linear Mixed Model to get race-specific cell-cell interactions](#section1)
-2. [Single Cell Clustering (Imaging Mass Cytometry)](#section2)
+2. [Single cell clustering and Giotto spatial analysis (Imaging Mass Cytometry)](#section2)
 
 
 <a name="section1"></a>
@@ -105,7 +105,7 @@ For example, the interaction "7 CD152 CD8a--9 GranzymeB CD152 HIF1a.txt" is sign
 
 
 <a name="section2"></a>
-## Single Cell Clustering (Imaging Mass Cytometry)
+## Single Cell Clustering and Giotto spatial analysis (Imaging Mass Cytometry)
 
 Pre-requisite: R and Giotto.
 
