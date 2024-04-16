@@ -1,7 +1,8 @@
 # TNBC.disparity
-# TNBC.disparity
 
 ## Running Linear Mixed Model to get race-specific cell-cell interactions
+
+Prerequisite: R and lme4 package.
 
 ### Step 1:
 ```
@@ -9,7 +10,7 @@ cd groups
 python3 extract.py
 ```
 
-This will split the full.matrix.txt into a series of files, corresponding to interactions.
+This will split the `full.matrix.txt` into a series of files, corresponding to interactions.
 For example, the file "7 CD152 CD8a--7 CD152 CD8a.txt" contains:
 
 ```
@@ -36,17 +37,17 @@ Where the first column is the interaction, followed by race, then patient ID, an
 
 ### Step 2:
 
-Make sure command1.sh is in the directory. Then run:
+Make sure `command1.sh` is in the directory. Then run:
 ```
 ./command1.sh
 ```
 
-Content of command1.sh:
+Content of `command1.sh`:
 ```
 IFS=$'\n'; for i in `ls -1 *.txt`; do Rscript do.one.R "$i"; done
 ```
 
-Content of do.one.R:
+Content of `do.one.R`:
 ```
 options(echo=T)
 library(lme4)
@@ -62,7 +63,7 @@ tt<-cbind(t(fixef(mixed)), t(an$"Pr(>Chisq)"))
 write.table(tt, file=paste0("stats/", args), sep="\t", quot=F, row.names=F)
 ```
 
-This R script do.one.R performs the linear mixed mode on an interaction file, e.g. 7 CD152 CD8a--7 CD152 CD8a.txt, and outputs the model coefficient and P-value significance for the statistical comparison: interaction in AA versus interaction in EA. Please see our BioRxiv paper for explanation and rationale for using linear mixed model.
+This R script `do.one.R` performs the linear mixed mode on an interaction file, e.g. 7 CD152 CD8a--7 CD152 CD8a.txt, and outputs the model coefficient and P-value significance for the statistical comparison: interaction in AA versus interaction in EA. Please see our BioRxiv paper for explanation and rationale for using linear mixed model.
 
 The `command1.sh` iterates through all interactions there are in the directory.
 The outputs are in `stats` directory.
@@ -74,7 +75,7 @@ cd stats
 source ../command.sh
 ```
 
-Content of command.sh:
+Content of `command.sh`:
 ```
 IFS=$'\n'; for i in `ls -1`; do echo $i; cat "$i"|sed "1d"; done|paste - -|sort -t" " -g -k2 -r|less
 ```
