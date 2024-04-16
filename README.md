@@ -95,6 +95,8 @@ For example, the interaction "7 CD152 CD8a--9 GranzymeB CD152 HIF1a.txt" is sign
 
 ## Single Cell Clustering (Imaging Mass Cytometry)
 
+Pre-requisite: R and Giotto.
+
 Inputs:
 - `Refined.matrix_v1_TNBC_Clinical_updated_v0.txt` - Cell-by-protein expression matrix. Each row is a single cell. Each column is a protein marker. Values are z-scores of log-normalized protein intensities.
 
@@ -107,7 +109,7 @@ K-means clustering in R using Giotto package:
 library(Matrix)
 library(Giotto)
 cytof<-data.table::fread(file="Refined.matrix_v1_TNBC_Clinical_updated_v0.txt")
-pos<-data.table::fread(file="Xcen_v0_TNBC_race.txt")
+pos<-data.table::fread(file="Xcen_v0_TNBC_race_reprocessed.txt")
 expr=as.matrix(cytof[,-1])
 rownames(expr) = cytof$cell
 cytof_test=createGiottoObject(raw_exprs=t(expr), spatial_locs=pos[,.(X,Y)])
@@ -118,11 +120,14 @@ km=pDataDT(cytof_test)
 write.table(file="frequency.kmeans.k20iter10000", km, quot=F, sep="\t", row.names=F)
 ```
 
-Results in frequency.kmeans.k20iter10000:
+Results in frequency.kmeans.k20iter10000. We can next run tSNE.
+
 ```
 kmeansk20<-read.table("frequency.kmeans.k20iter10000", head=T)
 colnames(kmeansk20) <- c("cell_ID", "k20.10000")
 cytof_test=addCellMetadata(cytof_test, new_metadata=kmeansk20, by_column=T, column_cell_ID="cell_ID")
+cytof_test <- runPCA(gobject = cytof_test, scale_unit = F, center=T, method="factominer")
+cytof_test <- runtSNE(cytof_test, dim_reduction_to_use=NULL)
 plotTSNE(cytof_test, cell_color="k20.10000", show_center_label=F)
 save(cytof_test, file="cytof_test.RData")
 ```
@@ -186,7 +191,9 @@ The output is stored in `mar23/prox.*` files and will look like the following:
 unified_int type_int    original    simulations enrichm p_higher_orig   p_lower_orig    p.adj_higher    p.adj_lower PI_value    int_ranking
 1   20 CD31 CD45RA--20 CD31 CD45RA  homo    141 20.082  2.75180728604768    0   1   0   1   8.25542185814303    1
 2   13 CD31 Vimentin AR--13 CD31 Vimentin AR    homo    82  11.627  2.7165994209468 0   1   0   1   8.1497982628404 2
+...
 ```
+We can further sort the results based on the `enrichm` and `PI_value` (adjusted Pvalue) columns.
 
 
 
