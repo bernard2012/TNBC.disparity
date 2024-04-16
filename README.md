@@ -73,7 +73,7 @@ tt<-cbind(t(fixef(mixed)), t(an$"Pr(>Chisq)"))
 write.table(tt, file=paste0("stats/", args), sep="\t", quot=F, row.names=F)
 ```
 
-This R script `do.one.R` performs the linear mixed mode on an interaction file, e.g. 7 CD152 CD8a--7 CD152 CD8a.txt, and outputs the model coefficient and P-value significance for the statistical comparison: interaction in AA versus interaction in EA. Please see our BioRxiv paper for explanation and rationale for using linear mixed model.
+This R script `do.one.R` performs the linear mixed mode on an interaction file, e.g. 7 CD152 CD8a--7 CD152 CD8a.txt, and outputs the model coefficient and P-value significance for the statistical comparison: interaction in AA versus interaction in EA. Please see our [BioRxiv paper](https://www.biorxiv.org/content/10.1101/2024.03.17.585428v2) for explanation and rationale for using linear mixed model.
 
 The `command1.sh` iterates through all interactions there are in the directory.
 The outputs are in `stats` directory.
