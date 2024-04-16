@@ -1,0 +1,12 @@
+options(echo=T)
+library(lme4)
+args<-commandArgs(trailingOnly = TRUE)
+print(args)
+x<-read.table(args[1], sep="\t")
+colnames(x)=c("interaction", "group", "patient", "score")
+mixed=lmer(score ~ 1+ group + (1|patient), data=x)
+reduced.mixed=lmer(score ~ 1 + (1|patient), data=x)
+an=anova(mixed, reduced.mixed)
+#an$"Pr(>Chisq)"
+tt<-cbind(t(fixef(mixed)), t(an$"Pr(>Chisq)"))
+write.table(tt, file=paste0("stats/", args), sep="\t", quot=F, row.names=F)
